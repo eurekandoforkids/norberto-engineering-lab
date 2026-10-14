@@ -1,57 +1,69 @@
-# Decision Lab — Engineering demonstration
+# QBugado | Engineering Case
+## Uma arquitetura precisa funcionar além do diagrama.
 
-**A public, independent sample of TypeScript engineering, API design, testability and human oversight.**
+**Arquitetura de software · Engenharia de produto · Desenvolvimento assistido por IA**  
+**Norberto Berti** · Atualizado em 14/10/2026
 
-Prepared as a demonstrative technical artifact for **Norberto Berti**. The executive portfolio remains at **https://qbugado-ai-portfolio.vercel.app/**. It is **not QBugado source code**, not a fork or extract from a private repository, and does not disclose proprietary architecture. Any professional portfolio should distinguish this sample from production features and measured results.
+> Este é um case técnico público, não um fork, espelho ou sincronização do repositório privado do QBugado. O código-fonte completo e os mecanismos proprietários permanecem privados. As amostras são explicitamente identificadas como código real, excerto real ou demonstração independente.
 
-## What it shows
+Este repositório complementa o [portfólio executivo](https://qbugado-ai-portfolio.vercel.app). Aqui demonstramos **como decisões arquiteturais se relacionam com implementação, qualidade e evidências** — sem repetir a narrativa de negócio.
 
-- **Product thinking:** a small, explicit decision-support problem that a reviewer can understand.
-- **Engineering:** TypeScript domain model with runtime schema validation, dependency-free Node.js API, deterministic results and precise error responses.
-- **Explainability:** per-criterion weights, beneficial versus costly dimensions and an audit-friendly scoring breakdown.
-- **Quality:** automated domain + HTTP tests and a read-only GitHub Actions CI pipeline.
-- **Governance:** ADR on trade-offs, security review and clear human decision boundaries.
+### Explore o case
 
-## Run locally
+| O que você quer examinar? | Evidência |
+| --- | --- |
+| Fronteiras e responsabilidades | [Arquitetura lógica](architecture/module-boundaries.md) |
+| Por que Monólito Modular? | [ADR-001](decisions/ADR-001-modular-monolith.md) |
+| Como preservar estado após interrupções? | [ADR-002](decisions/ADR-002-persistence.md) |
+| Como tratar identidade e autorização? | [ADR-003](decisions/ADR-003-identity.md) |
+| Existe código real? | [Cadastro e componente React](code/registration-excerpts.md) · [Input.tsx](code/ui/Input.tsx) |
+| Como funciona o fluxo de entrega? | [Git e CI](engineering/git-workflow.md) |
+| O que está comprovado? | [Matriz de evidências](evidence/implementation-status.md) |
+| Como protegemos a propriedade intelectual? | [Política de divulgação](SECURITY.md) |
 
-Requires **Node.js 22.16+**. There are *no external packages*, secrets, installations or API keys.
+## 01 — Arquitetura: complexidade por escolha, não por acidente
 
-```bash
-npm test
-npm start
-# open http://localhost:3000
-```
+O MVP precisava separar responsabilidades sem antecipar os custos operacionais de microsserviços. A decisão registrada foi **Monólito Modular com princípios Hexagonais/Clean**, aplicados pragmaticamente.
 
-REST example:
+Cinco fronteiras de domínio foram definidas: Identity, Journey, Experience, Bug e Grimoire. Isso descreve a **arquitetura lógica planejada**, não significa que esses cinco módulos já estejam integralmente implementados. A modularidade precisa ser comprovada no código, e não presumida a partir do diagrama. [Detalhes técnicos](decisions/ADR-001-modular-monolith.md).
 
-```bash
-curl -s http://localhost:3000/api/examples
-curl -s -X POST http://localhost:3000/api/evaluate \
-  -H 'Content-Type: application/json' \
-  -d '{"initiatives":[{"id":"demo","title":"Automatizar relatórios","scores":{"impact":5,"urgency":4,"confidence":5,"effort":2,"risk":1}}]}'
-```
+## 02 — Código real: da decisão à implementação
 
-## Structure
+O primeiro caso examinado é **cadastro com e-mail e senha** (história interna SCRUM-13, concluída). A branch principal do produto contém Next.js, React, TypeScript, validações de formulário e cadastro com o SDK do Supabase.
 
-```text
-src/core.ts            Domain logic, validation and scoring
-src/server.ts          HTTP API and route allowlist
-src/examples.ts        Fictional sample data
-public/                Accessible responsive UI
-tests/                 Unit and HTTP integration tests
-.github/workflows/     Read-only CI
-docs/adr/0001-...       Architecture decision record
-docs/SECURITY.md       Controls and known limitations
-```
+Selecionamos [trechos reais](code/registration-excerpts.md) e o componente [Input.tsx real](code/ui/Input.tsx). O login completo e os mecanismos proprietários não são apresentados como entregas verificadas neste case.
 
-## Scoring, not automatic approval
+**Ponto a conciliar:** a página de cadastro utiliza o Supabase Auth diretamente no frontend, enquanto a arquitetura prevê isolamento de dependências de identidade por módulo. A solução completa precisa distinguir chamadas do SDK de autorização sobre dados do domínio. [Análise da decisão](decisions/ADR-003-identity.md).
 
-Inputs are integers 0–5. Weighted total 0–100 uses impact 35%, urgency 15%, confidence 20%, *lower effort* 20% and *lower risk* 10%. Higher total is a suggestion, not a decision. Weights are an illustrative hypothesis, **not** a validated enterprise policy.
+## 03 — Integridade: o que acontece quando algo dá errado?
 
-## Responsibility and attribution
+A estratégia documentada define o backend como fonte de verdade do progresso. Uma ação que altera o estado de negócio só deve ser considerada concluída depois que sua persistência for confirmada. Fechar uma tela não equivale a confirmar uma escolha. [Persistência e cenários de falha](decisions/ADR-002-persistence.md).
 
-This sample was drafted with ChatGPT (GPT-6) in an AI-assisted workflow. Norberto is the intended owner/reviewer of the portfolio case; no completed human approval, production deployment or employment outcome is implied by this README. Track actual code review and changes through public pull requests once the repo exists.
+**Isso é uma decisão de arquitetura; resultados de testes dessa estratégia ainda não foram comprovados nesta publicação.**
 
-## Intellectual property and limits
+## 04 — Engenharia de entrega: do requisito ao código versionado
 
-All files in this repository are original fictional demonstration material. No code, private metrics, configurations, AI guardrails, user data or unpublished designs from QBugado or Micélios were reused. Public visibility does not mean the private projects are public. No open-source license is granted by default.
+O repositório privado está organizado em frontend, backend, aplicações complementares, testes e automações. Existem configurações de CI para frontend e backend, além de branches de desenvolvimento, funcionalidades e correções.
+
+O fluxo **definido** é: requisito → análise → branch → implementação assistida por IA → testes → PR e revisão → homologação humana → integração. A responsabilidade por aprovação e decisão continua humana. A existência de arquivos CI não comprova, por si só, execuções bem-sucedidas. [Fluxo e evidências](engineering/git-workflow.md).
+
+## 05 — Qualidade: não confundir decisão com entrega
+
+Classificamos as evidências como **definida, implementada, testada ou homologada**. A arquitetura e a persistência estão documentadas; o cadastro e um componente UI existem no código; testes e homologações detalhadas exigem verificação específica. [Confira a matriz](evidence/implementation-status.md).
+
+Incluímos um [exemplo público independente de validação](examples/registration-rules.mjs) com [testes próprios](tests/registration-rules.test.mjs). **Esses testes não avaliam o produto privado QBugado.**
+
+## 06 — Segurança e propriedade intelectual
+
+Não divulgamos dados pessoais, credenciais, prompts, mecanismos proprietários, infraestrutura sensível, desenho integral do banco nem arquivos completos que permitam reconstruir o núcleo do produto. A seleção é manual; **nada é sincronizado automaticamente**. [Critérios de divulgação](SECURITY.md).
+
+## 07 — Evolução: o case cresce com o software
+
+Novos elementos entrarão neste repositório somente quando forem verificáveis e expressamente autorizados. O case deve refletir a diferença entre arquitetura pretendida e implementação, inclusive quando houver decisões a revisar.
+
+---
+
+**Engenharia não é apenas fazer o código funcionar. É construir condições para que ele continue funcionando enquanto o produto evolui.**
+
+*Norberto Berti — Arquitetura, Engenharia de Produto e Transformação Digital com IA.*
+
