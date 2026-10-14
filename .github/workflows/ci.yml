@@ -1,0 +1,27 @@
+name: Engineering quality
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22.16.0'
+      - name: Dependency-free unit and API tests
+        run: npm test
+      - name: Repository content hygiene
+        shell: bash
+        run: |
+          if find . -type f \( -name '.env' -o -name '*.pem' -o -name '*.key' \) | grep -q .; then
+            echo 'Potential credential file detected'; exit 1
+          fi
+          test -f docs/adr/0001-decision-model.md
+          test -f docs/SECURITY.md
