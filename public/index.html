@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Decision Lab: demonstração independente de engenharia TypeScript, API REST, testes e decisão humana.">
+  <title>Decision Lab · Engineering demonstration</title>
+  <link rel="stylesheet" href="/style.css">
+  <script type="module" src="/app.js"></script>
+</head>
+<body>
+  <header class="topbar"><div class="wrap top-inner">
+    <a class="logotype" href="/" aria-label="Decision Lab início"><span class="brand-mark">DL</span> Decision Lab</a>
+    <span class="top-meta">Engineering demo <span aria-hidden="true">/</span> Norberto Berti</span>
+  </div></header>
+  <main>
+    <section class="hero wrap">
+      <div class="eyebrow"><span class="dot"></span> DEMONSTRAÇÃO TÉCNICA INDEPENDENTE</div>
+      <h1>Decisões melhores começam<br>com <em>critérios transparentes.</em></h1>
+      <p class="intro">Uma aplicação de priorização de iniciativas construída para demonstrar TypeScript, API REST, validação de dados, testes automatizados e explicabilidade. Sem dados reais e sem código proprietário.</p>
+      <div class="hero-actions"><a class="btn primary" href="#laboratorio">Explorar o laboratório <span aria-hidden="true">↘</span></a><a class="btn ghost" href="#metodo">Como funciona <span aria-hidden="true">→</span></a></div>
+      <div class="hero-meta"><span><i class="square"></i> Motor determinístico</span><span><i class="square"></i> 100% demonstrativo</span><span><i class="square"></i> Decisão humana</span></div>
+    </section>
+    <section class="lab-section" id="laboratorio"><div class="wrap">
+      <div class="section-head"><div><div class="eyebrow">01 — EXPERIÊNCIA</div><h2>Laboratório de priorização</h2><p>Ajuste os critérios de cada iniciativa e observe o cálculo mudar. Não há aprovação automática.</p></div><span id="health" class="status" role="status">Carregando exemplos…</span></div>
+      <div class="layout">
+        <div class="editor" id="editor" aria-label="Editar iniciativas"><div class="loading">Carregando iniciativas fictícias…</div></div>
+        <div class="results"><div class="results-header"><span>ORDEM SUGERIDA</span><span id="counter">—</span></div><div id="results" aria-live="polite"><div class="loading">Aguardando cálculo…</div></div><div id="error" class="error" role="alert" hidden></div><div class="results-foot">O modelo auxilia a análise, não substitui a decisão da pessoa responsável.</div></div>
+      </div>
+    </div></section>
+    <section id="metodo" class="method wrap"><div class="section-head"><div><div class="eyebrow">02 — EXPLICABILIDADE</div><h2>Regras claras. Resultado auditável.</h2><p>Cada valor tem peso conhecido. Menor esforço e menor risco aumentam a pontuação.</p></div></div>
+      <div class="rule-grid"><div><span class="rule-number">35%</span><strong>Impacto</strong><small>Mais é melhor</small></div><div><span class="rule-number">15%</span><strong>Urgência</strong><small>Mais é melhor</small></div><div><span class="rule-number">20%</span><strong>Confiança</strong><small>Mais é melhor</small></div><div><span class="rule-number">20%</span><strong>Esforço</strong><small>Menos é melhor</small></div><div><span class="rule-number">10%</span><strong>Risco</strong><small>Menos é melhor</small></div></div>
+      <p class="method-note">Pesos e faixas são exemplos didáticos. Em um projeto real, precisariam de validação com responsáveis de negócio, stakeholders e governança.</p>
+    </section>
+    <section class="engineering"><div class="wrap"><div class="eyebrow light">03 — ENGENHARIA E GOVERNANÇA</div><h2>Um case pequeno.<br><em>Práticas que importam.</em></h2><div class="pill-grid"><span>TypeScript</span><span>Node.js</span><span>REST API</span><span>Validação estrita</span><span>Testes automatizados</span><span>CI GitHub Actions</span><span>ADR</span><span>Segurança by design</span></div><p>Projeto independente e fictício, preparado com assistência de IA para revisão humana. Não foi extraído de nenhum produto confidencial.</p></div></section>
+  </main>
+  <footer><div class="wrap footer-inner"><strong>Decision Lab</strong><span>Demonstração de engenharia · Norberto Berti</span><span>Sem dados ou código do QBugado</span></div></footer>
+</body>
+</html>
